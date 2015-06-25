@@ -142,6 +142,7 @@ local function wrap(Object, Wrapper)
 			Meta.__call = function(this, ...)
 				--return pcall_s(Wrapper, this, ...);
 				return pcall_s(Wrapper, unwrap(this), ...);
+				return pcall_s(Wrapper, unwrap(this), ...);
 			end
 		elseif (type(Wrapper) == "table") then
 			Meta.__call = function(this, ...)
