@@ -25,7 +25,17 @@ local obj2 = wrap({1, 2, 3}, {
 obj2:print();
 --]]
 
-RESERVED_META = {
+--DEPEND
+do
+    unpack = unpack or table.unpack;
+    
+    setfenv = setfenv or function(f, env)
+        return load(string.dump(f), nil, nil, env);
+    end
+end
+    
+
+local RESERVED_META = {
 	["__index"] = true, 
 	["__newindex"] = true, 
 	["_O"] = true, 
@@ -37,7 +47,7 @@ RESERVED_META = {
 
 	Packs the arguments in a table.
 --]]
-function pack(...)
+local function pack(...)
 	return {...};
 end
 
@@ -46,7 +56,7 @@ end
 
 	Runs pcall and errors if there is an error or return the values of the function.
 --]]
-function pcall_s(f, ...)
+local function pcall_s(f, ...)
 	local R = pack(pcall(f, ...));
 	
 	if (R[1]) then
@@ -60,7 +70,7 @@ end
 --[[
 	table unwrap(table wrapped)
 --]]
-function unwrap(wrapped)
+local function unwrap(wrapped)
 	if (getmetatable(wrapped)) then
 		if (rawget(getmetatable(wrapped), "_O")) then
 			return unpack(rawget(getmetatable(wrapped), "_O"));
@@ -71,7 +81,7 @@ end
 --[[
 	table wrap(table object, table|function wrapper)
 --]]
-function wrap(Object, Wrapper)
+local function wrap(Object, Wrapper)
 	Wrapper = Wrapper or {};
 	LockWrapper = LockWrapper or false;
 	
@@ -130,11 +140,14 @@ function wrap(Object, Wrapper)
 	elseif (type(Object) == "function") then
 		if (type(Wrapper) == "function") then
 			Meta.__call = function(this, ...)
-				return pcall_s(Wrapper, this, ...);
+				--return pcall_s(Wrapper, this, ...);
+				return pcall_s(Wrapper, unwrap(this), ...);
 			end
 		elseif (type(Wrapper) == "table") then
 			Meta.__call = function(this, ...)
-				return pcall_s(setfenv(Object, Wrapper), ...);
+				if (setfenv) then
+					return pcall_s(setfenv(Object, Wrapper), ...);
+				end
 			end
 		end
 	end
