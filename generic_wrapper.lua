@@ -70,11 +70,11 @@ local function pcall_s(f, ...)
 end
 
 local function copy(t0, t1)
-    t1 = t1 or {};
+    local T = t1 or {};
     for i, v in next, t0 do
-        t1[i] = v;
+        T[i] = v;
     end    
-    return t1;
+    return T;
 end
 
 --[[
@@ -114,11 +114,11 @@ local function wrap(Object, Wrapper, LockWrapper)
 				if (T == "function") then
 					return function(self, ...)
 						if (unwrap(self)) then
-                            return pcall_s(Wrapper[Key], unwrap(self), ...);
+                            return pcall_s(Wrapper[Key], copy(unwrap(self), Wrapper), ...);
 						end	
 						
 						-- now, self is a parameter that was inputted
-						return pcall_s(Wrapper[Key], Object, self, ...);			
+						return pcall_s(Wrapper[Key], copy(Object, Wrapper), self, ...);			
 					end
 				else
 					return Wrapper[Key];
