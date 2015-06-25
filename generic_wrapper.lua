@@ -31,7 +31,9 @@ do
     
     setfenv = setfenv or function(f, env)
         return load(string.dump(f), nil, nil, env);
-    end
+    end;
+    
+    getfenv = getfenv or function() return _ENV end;
 end
     
 
@@ -65,6 +67,14 @@ local function pcall_s(f, ...)
 	else
 		error(R[2])
 	end
+end
+
+local function copy(t0, t1)
+    t1 = t1 or {};
+    for i, v in next, t0 do
+        t1[i] = v;
+    end    
+    return t1;
 end
 
 --[[
@@ -104,7 +114,7 @@ local function wrap(Object, Wrapper, LockWrapper)
 				if (T == "function") then
 					return function(self, ...)
 						if (unwrap(self)) then
-							return pcall_s(Wrapper[Key], unwrap(self), ...);
+                            return pcall_s(Wrapper[Key], unwrap(self), ...);
 						end	
 						
 						-- now, self is a parameter that was inputted
