@@ -77,6 +77,16 @@ local function copy(t0, t1)
     return T;
 end
 
+local function merge(t0, t1)
+	local T = t1 or {};
+	for i, v in next, t0 do
+		if (not T[i]) then
+			T[i] = v;
+		end
+	end
+	return T;
+end
+
 --[[
 	table unwrap(table wrapped)
 --]]
@@ -106,7 +116,7 @@ local function wrap(Object, Wrapper, LockWrapper)
 		Meta._W = setmetatable(pack(Wrapper), {});
 	end
 	
-	if (type(Object) == "table" or type(Object) == "userdata" and type(Wrapper) == "table") then
+	if (type(Object) == "table" and type(Wrapper) == "table") then
 		Meta.__index = function(this, Key)
 			if (Wrapper[Key]) then
 				local T = type(Wrapper[Key]);
