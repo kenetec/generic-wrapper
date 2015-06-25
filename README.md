@@ -32,7 +32,7 @@ local wrapper = require "generic-wrapper"
 
 local Obj1 = wrapper.wrap({1, 2, 3}, 
 {
-  print_content = function(this)          --"this" is passed by the library and points to the object "{1, 2, 3}"
+  print_content = function(this)          --"this" is passed by the library and points to the table "{1, 2, 3}"
     for i, v in ipairs(this) do
       print(i, v);
     end
