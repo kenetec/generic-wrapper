@@ -81,7 +81,7 @@ end
 --[[
 	table wrap(table object, table|function wrapper)
 --]]
-local function wrap(Object, Wrapper)
+local function wrap(Object, Wrapper, LockWrapper)
 	Wrapper = Wrapper or {};
 	LockWrapper = LockWrapper or false;
 	
