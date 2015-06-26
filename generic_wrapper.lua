@@ -124,11 +124,11 @@ local function wrap(Object, Wrapper, LockWrapper)
 				if (T == "function") then
 					return function(self, ...)
 						if (unwrap(self)) then
-                            return pcall_s(Wrapper[Key], copy(unwrap(self), Wrapper), ...);
+                            return pcall_s(Wrapper[Key], merge(unwrap(self), Wrapper), ...);
 						end	
 						
 						-- now, self is a parameter that was inputted
-						return pcall_s(Wrapper[Key], copy(Object, Wrapper), self, ...);			
+						return pcall_s(Wrapper[Key], merge(Object, Wrapper), self, ...);			
 					end
 				else
 					return Wrapper[Key];
