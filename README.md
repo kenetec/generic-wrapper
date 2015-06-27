@@ -3,7 +3,7 @@ A extremely lightweight wrapper library.
 
 The library provides two main functions and one auxiliary function for usage.
 
-*** Compatible with versions Lua:
+##### Compatible with versions Lua:
   * Lua 5.1
   * Lua 5.2
   * Lua 5.3
@@ -32,7 +32,7 @@ The following displays a very basic example of how to use the library.
 
 wrap() can accept two data types for each required argument, tables and functions.
 
-*** Combinations:
+##### Combinations:
   * wrap(table Object, table Wrapper)       -> Applys the Wrapper overlay to the Object.
   * wrap(function Object, table Wrapper)    -> Sets the function environment of the Object.
   * wrap(function Object, function Wrapper) -> Wrapper(Object, ...)
