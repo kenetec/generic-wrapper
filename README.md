@@ -15,15 +15,22 @@ API
 The following is formatted in C++ - like syntax.
 
 ### Main functions
+```
+table wrap(table|function Object, table|function Wrapper, [bool Lock_Wrapper])
+```
+Creates a table with the wrapper overlay.
 
-table wrap(table|function Object, table|function Wrapper, [bool Lock_Wrapper]) -> Table with the wrapper overlay.
-
-any unwrap(table Wrapped) -> Object passed in wrap function.
+```
+any unwrap(table Wrapped)
+```
+Unwraps a wrapped object.
 
 ### Auxiliary functions
 
-table pack(...) -> Packs the arguments in a table(essentially the opposite of unpack).
-
+```
+table pack(...)
+```
+Packs the arguments in a table(essentially the opposite of unpack).
 
 Usage
 ---
